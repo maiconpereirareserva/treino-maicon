@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino Maicon</title>
+<meta name="theme-color" content="#6366f1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Treino Maicon">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,system-ui,sans-serif;background:#f4f7fb;color:#1f2937;padding-bottom:20px}
+header{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:20px 16px;border-radius:0 0 24px 24px}
+header h1{font-size:20px}
+header p{font-size:12px;opacity:.9;margin-top:4px}
+.tabs{display:flex;gap:6px;padding:12px;overflow-x:auto}
+.tab{flex:1;min-width:75px;padding:10px 6px;border:none;border-radius:12px;color:#fff;font-weight:600;font-size:12.5px;opacity:.55;cursor:pointer}
+.tab.active{opacity:1}
+.tab-a{background:#10b981}.tab-b{background:#f97316}.tab-c{background:#8b5cf6}.tab-e{background:#3b82f6}
+.subtabs{display:flex;gap:6px;padding:0 12px 8px;overflow-x:auto}
+.subtab{padding:7px 13px;border:2px solid #e5e7eb;background:#fff;border-radius:20px;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;white-space:nowrap}
+.subtab.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.content{padding:6px 12px}
+.section-title{font-size:15px;font-weight:700;margin:12px 2px 6px;color:#374151}
+.tip{font-size:12.5px;background:#fff7ed;border-left:4px solid #f59e0b;padding:10px 12px;border-radius:10px;margin:8px 2px;color:#92400e;line-height:1.5}
+.tip.blue{background:#eff6ff;border-left-color:#3b82f6;color:#1e3a8a}
+.tip.green{background:#f0fdf4;border-left-color:#22c55e;color:#166534}
+.card{background:#fff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:0 3px 10px rgba(0,0,0,.06);border-left:5px solid #ccc}
+.card-a{border-left-color:#10b981}.card-b{border-left-color:#f97316}.card-c{border-left-color:#8b5cf6}
+.card-head{display:flex;align-items:center;gap:10px}
+.check{width:28px;height:28px;border-radius:8px;border:2.5px solid #cbd5e1;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0}
+.check.on{background:#22c55e;border-color:#22c55e}
+.ex-name{font-size:15px;font-weight:700}
+.ex-meta{font-size:11.5px;color:#6b7280;margin-top:2px}
+.ex-row{display:flex;gap:8px;margin-top:12px;align-items:flex-end;flex-wrap:wrap}
+.inp{display:flex;flex-direction:column}
+.inp label{font-size:10.5px;color:#6b7280;font-weight:600;margin-left:4px;margin-bottom:3px}
+.inp input{width:75px;padding:8px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;font-weight:600;text-align:center;background:#f9fafb}
+.how-btn{margin-left:auto;padding:8px 12px;border:none;border-radius:10px;background:#eef2ff;color:#4338ca;font-weight:600;font-size:12px;cursor:pointer}
+.card.done{opacity:.55}
+.btn{width:100%;padding:13px;border:none;border-radius:13px;background:#3b82f6;color:#fff;font-weight:700;font-size:14px;cursor:pointer;margin-top:8px}
+.btn.green{background:#22c55e}.btn.purple{background:#8b5cf6}.btn.pink{background:#ec4899}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;z-index:50}
+.modal-bg.show{display:flex;align-items:flex-end;justify-content:center}
+.modal{background:#fff;width:100%;max-width:500px;border-radius:22px 22px 0 0;padding:20px 16px 28px;max-height:85vh;overflow-y:auto;position:relative}
+.modal h3{font-size:18px;padding-right:36px}
+.modal-meta{font-size:12px;color:#6b7280;margin:4px 0 14px}
+.modal h4{font-size:13px;margin:12px 0 6px}
+.modal p{font-size:13px;line-height:1.5;color:#374151}
+.correct{background:#f0fdf4;border-left:4px solid #22c55e;padding:10px 12px;border-radius:10px}
+.avoid{background:#fef2f2;border-left:4px solid #ef4444;padding:10px 12px;border-radius:10px;margin-top:10px}
+.avoid h4{color:#dc2626}
+.close-x{position:absolute;top:12px;right:14px;background:#f3f4f6;border:none;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 2px}
+.stat{background:#fff;border-radius:14px;padding:12px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.05)}
+.stat .num{font-size:22px;font-weight:800;color:#3b82f6}
+.stat .lbl{font-size:11px;color:#6b7280;margin-top:2px;font-weight:600}
+.form-card{background:#fff;border-radius:16px;padding:14px;margin:10px 0;box-shadow:0 3px 10px rgba(0,0,0,.06)}
+.form-card label{font-size:11.5px;color:#6b7280;font-weight:600;display:block;margin:10px 0 4px}
+.form-card input,.form-card select{width:100%;padding:10px;border:2px solid #e5e7eb;border-radius:10px;font-size:13.5px;background:#fff}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.list-item{background:#fff;border-radius:12px;padding:11px 13px;margin:7px 0;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:12.5px;line-height:1.5;border-left:4px solid #3b82f6}
+.list-item b{color:#111827}
+.del{float:right;background:#fee2e2;color:#dc2626;border:none;padding:3px 8px;border-radius:7px;font-size:10.5px;cursor:pointer}
+.empty{color:#6b7280;font-size:12.5px;text-align:center;padding:16px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#22c55e;color:#fff;padding:10px 20px;border-radius:25px;font-weight:600;font-size:12.5px;z-index:100;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tag{padding:6px 11px;border:2px solid #e5e7eb;border-radius:20px;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;background:#fff}
+.tag.on{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0}
+.cal-day{aspect-ratio:1;border-radius:8px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:10.5px;color:#6b7280;font-weight:600}
+.cal-day.done{background:#22c55e;color:#fff}
+.cal-day.today{outline:2px solid #6366f1}
+.bar-row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:12.5px}
+.bar-row .name{width:90px;font-weight:600}
+.bar-row .bar-bg{flex:1;height:14px;background:#f1f5f9;border-radius:7px;overflow:hidden}
+.bar-row .bar-fill{height:100%;background:linear-gradient(90deg,#6366f1,#8b5cf6)}
+.bar-row .val{width:40px;text-align:right;color:#6b7280}
+.emoji-scale{display:flex;gap:5px;margin-top:4px}
+.emoji-scale .e{flex:1;padding:9px;border:2px solid #e5e7eb;border-radius:10px;font-size:20px;cursor:pointer;background:#fff;text-align:center}
+.emoji-scale .e.on{background:#eef2ff;border-color:#6366f1}
+.ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.ach{background:#fff;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05);opacity:.4}
+.ach.unlocked{opacity:1;background:linear-gradient(135deg,#fef3c7,#fde68a)}
+.ach .emoji{font-size:30px}
+.ach .ttl{font-size:11.5px;font-weight:700;margin-top:5px}
+.ach .desc{font-size:10px;color:#6b7280;margin-top:2px}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.photo-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;background:#f1f5f9}
+.photo-slot label{display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:1;border:2px dashed #cbd5e1;border-radius:9px;font-size:11px;color:#6b7280;cursor:pointer;background:#f9fafb;text-align:center;padding:6px}
+.streak-box{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border-radius:14px;padding:13px;margin:10px 2px;display:flex;align-items:center;gap:12px}
+.streak-box .fire{font-size:30px}
+.streak-box b{font-size:17px;display:block}
+.streak-box span{font-size:11.5px;opacity:.9}
+.insight{background:#fff;border-radius:12px;padding:11px 13px;margin:7px 2px;font-size:12.5px;line-height:1.5;box-shadow:0 2px 8px rgba(0,0,0,.05);border-left:4px solid #3b82f6}
+.insight.good{border-left-color:#22c55e}.insight.warn{border-left-color:#f59e0b}
+/* Estilos novos para o modal aprimorado */
+.step-list{counter-reset:step;list-style:none;margin:6px 0}
+.step-list li{counter-increment:step;position:relative;padding:7px 10px 7px 36px;font-size:12.5px;line-height:1.5;color:#374151;margin:4px 0;background:#f9fafb;border-radius:8px}
+.step-list li::before{content:counter(step);position:absolute;left:6px;top:50%;transform:translateY(-50%);width:22px;height:22px;background:#22c55e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.err-list{list-style:none;margin:6px 0}
+.err-list li{position:relative;padding:5px 10px 5px 26px;font-size:12.5px;line-height:1.5;color:#991b1b;margin:3px 0}
+.err-list li::before{content:"✗";position:absolute;left:6px;top:5px;color:#ef4444;font-weight:700}
+.tip-list{list-style:none;margin:6px 0}
+.tip-list li{position:relative;padding:5px 10px 5px 26px;font-size:12.5px;line-height:1.5;color:#1e3a8a;margin:3px 0}
+.tip-list li::before{content:"💡";position:absolute;left:4px;top:5px;font-size:12px}
+.musc-tags{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}
+.musc-tags span{background:#eef2ff;color:#4338ca;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.info-box{background:#f0f9ff;border-left:4px solid #0ea5e9;padding:10px 12px;border-radius:10px;margin-top:10px}
+.info-box h4{color:#0369a1;margin:0 0 4px}
+.info-box p{font-size:12.5px;color:#0c4a6e}
+.modal-sec{margin-top:12px}
+.modal-sec-title{font-size:13px;font-weight:700;margin:10px 0 4px;color:#374151;display:flex;align-items:center;gap:6px}
+
+.install-btn{display:none;margin-top:12px;padding:9px 14px;border:1px solid rgba(255,255,255,.55);border-radius:12px;background:rgba(255,255,255,.18);color:#fff;font-weight:700;font-size:12px;cursor:pointer;backdrop-filter:blur(6px)}
+.install-btn.show{display:inline-flex;align-items:center;gap:7px}
+.install-help{display:none;background:#fff;border-left:4px solid #6366f1;padding:10px 12px;margin:10px 12px 0;border-radius:10px;font-size:12px;line-height:1.45;color:#374151;box-shadow:0 3px 10px rgba(0,0,0,.06)}
+.install-help.show{display:block}
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💪 Treino Maicon</h1>
+  <p>Divisão ABC · <span id="hoje"></span></p>
+  <button id="installAppBtn" class="install-btn" type="button">📲 Instalar aplicativo</button>
+</header>
+<div id="installHelp" class="install-help"></div>
+
+<div class="tabs">
+  <button class="tab tab-a active" onclick="go('A')">🟢 Treino A</button>
+  <button class="tab tab-b" onclick="go('B')">🟠 Treino B</button>
+  <button class="tab tab-c" onclick="go('C')">🟣 Treino C</button>
+  <button class="tab tab-e" onclick="go('E')">📊 Evolução</button>
+</div>
+
+<div class="subtabs" id="subtabs" style="display:none"></div>
+
+<div class="content" id="content">
+  <p style="padding:20px">Carregando...</p>
+</div>
+
+<div class="modal-bg" id="modal" onclick="if(event.target===this)fechaModal()">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ DADOS ============
+var TREINOS = {
+  A:{nome:"Treino A — Costas + Bíceps",dias:"Segunda e Quinta",
+     dica:"Quinta: repetir apenas superiores. 20 min de cardio ao final.",
+     grupos:["Costas","Bíceps","Ombros"],
+     ex:[
+      {n:"Puxada Aberta",s:3,r:"12-15",d:120,ico:"🪢",
+       musculos:["Latíssimo do dorso","Bíceps","Antebraços","Romboides"],
+       passos:["Ajuste o banco e o suporte de coxas para ficar bem preso.","Segure a barra com pegada mais aberta que os ombros (pronação).","Puxe a barra em direção ao peito superior, levando os cotovelos para baixo e para trás.","Aperte as escápulas no ponto final por 1 segundo.","Suba a barra de forma controlada até estender os braços."],
+       como:"Pegada mais aberta que os ombros. Puxe a barra até o peito, cotovelos para baixo.",
+       evitar:["Balançar o tronco para ganhar impulso","Usar os braços no lugar das costas","Puxar a barra atrás da nuca (lesiona o ombro)","Encolher os ombros durante a puxada","Subir a carga de uma vez (descer rápido)"],
+       dicas:["Imagine os cotovelos subindo, não as mãos.","Mantenha o peito estufado o tempo todo.","Olhe levemente para cima, nunca para o colo."],
+       respiracao:"Inspire ao puxar a barra para baixo, expire ao soltar."},
+      {n:"Remada Baixa",s:3,r:"12-15",d:120,ico:"🚣",
+       musculos:["Latíssimo do dorso","Romboides","Trapézio","Bíceps"],
+       passos:["Apoie os pés na plataforma, joelhos levemente flexionados.","Segure a alça, tronco inclinado a uns 45°, coluna neutra.","Puxe a alça em direção ao abdômen, juntando as escápulas.","Volte controladamente, esticando bem as costas."],
+       como:"Tronco inclinado, coluna neutra. Puxe em direção ao abdômen juntando as escápulas.",
+       evitar:["Arredondar a coluna (risco de hérnia)","Encolher os ombros nas orelhas","Balancedar o corpo para frente e para trás","Puxar com as mãos em vez dos cotovelos","Inclinar o tronco demais (vira remada curvada)"],
+       dicas:["Mantenha o abdômen contraído para proteger a lombar.","Puxe com os cotovelos, não com as mãos.","No início do movimento, projete o peito para frente."],
+       respiracao:"Inspire ao puxar, expire ao soltar a carga."},
+      {n:"Remada Cavalinho",s:3,r:"Falha",d:120,ico:"🐴",
+       musculos:["Latíssimo do dorso","Trapézio médio","Romboides","Bíceps"],
+       passos:["Ajuste o banco na altura do peito e apoie o tronco no encosto.","Segure as alças, puxando os cotovelos para trás.","Conecte as escápulas com força no final do movimento.","Vá até a falha muscular, mantendo a técnica."],
+       como:"Máquina com apoio no peito. Puxe conectando escápulas, vá até a falha.",
+       evitar:["Sair do apoio de peito durante a puxada","Fazer movimentos curtos (sem amplitude completa)","Elevar os ombros ao puxar","Descer a carga de uma vez (perde a contração excêntrica)"],
+       dicas:["Foque em apertar as costas no ponto máximo.","Use carga moderada para ir longe na falha sem perder forma.","Pausa de 1 segundo no topo aumenta a contração."],
+       respiracoa:"Solte o ar ao puxar, inspire ao retornar."},
+      {n:"Puxada Triângulo",s:3,r:"12-15",d:60,ico:"🔻",
+       musculos:["Latíssimo do dorso","Bíceps","Parte inferior das costas"],
+       passos:["Sente-se, apoie as coxas e segure a pegada triangular (neutra).","Puxe o triângulo até o peito superior.","Mantenha os cotovelos próximos ao corpo durante todo o movimento.","Volte lento, sentindo o alongamento das costas."],
+       como:"Pegada neutra. Puxe até o peito superior, cotovelos próximos ao corpo.",
+       evitar:["Deixar o tronco cair para trás no puxão","Puxar só com os braços","Inclinar o tronco exageradamente","Afastar os cotovelos para os lados"],
+       dicas:["Leve o triângulo ao peito, não ao abdômen.","Mantenha ocore reto e o abdômen firme.","Concentre a força nas costas, não nos braços."],
+       respiracao:"Inspire ao descer a carga, expire ao puxar."},
+      {n:"Rosca (alterando/martelo/concentrada)",s:4,r:12,d:60,ico:"💪",
+       musculos:["Bíceps braquial","Braquial","Antebraços"],
+       passos:["Direta: segure a barra, cotovelos fixos ao lado do corpo, suba girando o punho até o ombro.","Martelo: use halteres com pegada neutra, suba como se estivesse batendo um martelo.","Concentrada: sentado, apoie o cotovelo na parte interna da coxa e suba o halter."],
+       como:"Direta: sobe girando o punho. Martelo: pegada neutra. Concentrada: cotovelo na coxa.",
+       evitar:["Balançar os cotovelos para frente","Usar impulso do corpo (jogar o tronco para trás)","Descer rápido demais","Encolher os ombros","Não fazer o movimento completo (amplitude curta)"],
+       dicas:["Mantenha os pulsos retos, não flexionados.","Conte 2 segundos ao subir e 3 ao descer.","Varie as pegadas para trabalhar o bíceps em ângulos diferentes."],
+       respiracoa:"Inspire ao descer, expire ao subir o peso."},
+      {n:"Banco Scott",s:3,r:12,d:60,ico:"🙏",
+       musculos:["Bíceps braquial","Braquial"],
+       passos:["Ajuste a altura do banco para apoiar as axilas na borda.","Apoie os braços totalmente no banco, sem levantar.","Segure a barra ou a E-Z, suba apenas com o antebraço.","Desça controlado até esticar quase por completo."],
+       como:"Apoie braços no banco. Sobe só com o antebraço, desce controlado.",
+       evitar:["Tirar os braços do apoio durante o movimento","Descer rápido e quicar a carga","Lançar o corpo para trás","Não estender o braço (amplitude curta)"],
+       dicas:["Foque no movimento do antebraço, o braço fica fixo.","Use barra E-Z para preservar os pulsos.","Pausa de contração no topo."],
+       respiracoa:"Expire ao subir, inspire ao descer."},
+      {n:"Encolhimento de Ombro",s:3,r:15,d:60,ico:"🤷",
+       musculos:["Trapézio superior","Levantador da escápula"],
+       passos:["Segure halteres ou barra, braços esticados.","Suba os ombros em direção às orelhas, como se dissesse 'não sei'.","Pause 1 segundo no topo, apertando o trapézio.","Desça lento até alongar o músculo."],
+       como:"Suba os ombros em direção às orelhas. Pause 1s no topo.",
+       evitar:["Girar os ombros (lesão no manguito)","Movimento curto, sem alcançar altura máxima","Descer rápido sem controle","Usar cargas que fazem você usar as perras"],
+       dicas:["Movimento é para cima e para baixo, nunca circular.","Segure 1s no topo para máxima contração.","Imagine tocando as orelhas com os ombros."],
+       respiracoa:"Inspire ao subir, expire ao descer."},
+      {n:"Leg 45",s:4,r:12,d:60,ico:"🦵",
+       musculos:["Quadríceps","Glúteos","Posteriores de coxa"],
+       passos:["Ajuste o banco para que ao descer chegue a 90° no joelho.","Pés na largura do quadril, na parte baixa da plataforma.","Solte a trava e desça controlado.","Empurre a plataforma até quase estender o joelho, sem travar."],
+       como:"Pés na largura do quadril. Desça até 90°, empurre sem travar o joelho.",
+       evitar:["Tirar o quadril do banco durante o movimento (bumbum solto)","Joelhos cavejando para dentro","Travar o joelho no topo (estender totalmente)","Descer rápido e bater","Pés muito altos (vira glúteo) ou muito baixos (sobrecarrega joelho)"],
+       dicas:["Mantenha todo o pé apoiado na plataforma.","Comece leve para aquecer os joelhos.","Pés mais juntos = foco no vasto lateral; pés mais afastados = adutores."],
+       respiracoa:"Inspire ao descer, expire ao empurrar."},
+      {n:"Cadeira Extensora",s:4,r:15,d:120,ico:"🔩",
+       musculos:["Quadríceps (foco no reto femoral)"],
+       passos:["Ajuste o encosto para que o joelho fique alinhado com o eixo da máquina.","Apoie as canelas no colchão inferior.","Estique os joelhos contraindo o quadríceps.","Pause 1 segundo no topo e desça controlado."],
+       como:"Sentado, estique os joelhos contraindo o quadríceps. Pause 1s no topo e desça controlado.",
+       evitar:["Balançar o tronco para trás para ajudar","Movimento curto (não estende totalmente)","Usar impulso para subir a carga","Descer rápido e bater nas canelas","Elevar o quadril do banco"],
+       dicas:["Aponte os dedos dos pés para cima para mais contração.","Pausa de 2s no topo = queima extra.","Pés voltados para dentro = foco no vasto lateral; para fora = vasto medial."],
+       respiracoa:"Inspire ao descer, expire ao estender."}
+     ]},
+  B:{nome:"Treino B — Peito + Tríceps",dias:"Terça e Sexta",
+     dica:"Sexta: apenas mesa flexora e cadeira flexora. 20 min de cardio.",
+     grupos:["Peito","Tríceps","Ombros","Posterior de coxa"],
+     ex:[
+      {n:"Supino Reto Barra",s:3,r:15,d:120,ico:"🏋️",
+       musculos:["Peitoral maior","Deltoide anterior","Tríceps"],
+       passos:["Deite no banco, olhos embaixo da barra.","Pegada mais larga que os ombros.","Retraia as escápulas, peito estufado, pés firmes no chão.","Tire a barra do suporte e desça até o peito (logo abaixo dos mamilos).","Empurre para cima até quase estender os braços."],
+       como:"Pegada mais larga que ombros. Desça até o peito, empurre para cima.",
+       evitar:["Quicar a barra no peito","Arquear demais a lombar (pés no ar)","Descer rápido sem controle","Bater a barra no rosto","Travar cotovelos no topo","Levantar o bumbum do banco"],
+       dicas:["Use as pernas como base sólida, mas sem arquear a lombar.","Pense em apertar o peito ao subir.","Sempre treine com segurança (helpspotter) em cargas altas."],
+       respiracoa:"Inspire ao descer, expire ao empurrar."},
+      {n:"Supino Inclinado Halteres",s:3,r:15,d:120,ico:"📐",
+       musculos:["Peitoral superior","Deltoide anterior","Tríceps"],
+       passos:["Ajuste o banco entre 30° e 45°.","Sente, apoie os halteres nas coxas e deite.","Suba os halteres até a altura do peito superior.","Desça controlado até sentir alongamento.","Suba até os halteres quase se tocarem."],
+       como:"Banco 30-45°. Desça até o peito superior e suba até quase se tocarem.",
+       evitar:["Inclinar mais que 45° (vira exercício de ombro)","Descer os halteres sem controle","Bater os halteres um no outro no topo","Travar cotovelos bruscamente","Pulso flexionado durante o movimento"],
+       dicas:["Mantenha os pulsos retos e firmes.","Pense em 'abraçar uma árvore' ao subir.","Use amplitude completa para recrutar fibras superiores."],
+       respiracoa:"Inspire ao descer, expire ao subir."},
+      {n:"Voador (Peck Deck)",s:4,r:12,d:60,ico:"🦅",
+       musculos:["Peitoral maior (foco no esterno)"],
+       passos:["Ajuste o banco para que as costas fiquem apoiadas.","Cotovelos na altura dos ombros, apoiados nos suportes.","Junte os braços à frente contraindo o peito.","Volte controlado até sentir alongamento."],
+       como:"Cotovelos na altura dos ombros. Junte os braços contraindo o peito.",
+       evitar:["Esticar demais os cotovelos (vira pressão no ombro)","Usar braços em vez do peito","Descer rápido e bater nas costas da máquina","Inclinar o tronco para frente","Movimento curto, sem juntar totalmente"],
+       dicas:["Mantenha os cotovelos fixos na altura dos ombros.","Aperte o peito no ponto máximo por 1s.","Carga moderada é melhor que muita carga com técnica ruim."],
+       respiracoa:"Expire ao juntar, inspire ao abrir."},
+      {n:"Crucifixo Cross Over",s:3,r:12,d:60,ico:"✖️",
+       musculos:["Peitoral maior (porção interna)"],
+       passos:["Posicione-se no meio do cross over, tronco levemente inclinado à frente.","Segure as polias, um passo à frente para estabilidade.","Junte as mãos à frente do corpo contraindo o peito.","Volte controlado, sentindo o alongamento."],
+       como:"Incline o tronco levemente. Junte as mãos contraindo o peito.",
+       evitar:["Fazer movimento de remada (puxar para trás)","Cotovelos muito esticados (estresse no bíceps)","Usar cargas altas que roubam a técnica","Inclinar demais o tronco para frente","Descer rápido e sem controle"],
+       dicas:["Incline um pouco o tronco para isolar o peito.","Cruze as mãos no final para mais contração.","Use polia alta para peito inferior e baixa para peito superior."],
+       respiracoa:"Expire ao juntar, inspire ao abrir."},
+      {n:"Tríceps Pulley",s:3,r:15,d:60,ico:"⛓️",
+       musculos:["Tríceps (cabeça longa, lateral e medial)"],
+       passos:["Fique de pé, tronco levemente inclinado à frente.","Segure a barra, cotovelos colados ao corpo.","Desça a barra esticando totalmente os braços.","Contrai no final, volta controlado."],
+       como:"Cotovelos colados. Desça esticando os braços, contrai no final.",
+       evitar:["Afastar os cotovelos dos lados","Usar o peso do corpo para empurrar","Movimento curto, sem estender totalmente","Curvar os ombros para frente","Descer a barra rápido"],
+       dicas:["Mantenha os cotovelos fixos ao lado do corpo.","Estenda totalmente no final para recrutar toda a cabeça longa.","Use pegada supinada para variar o estímulo."],
+       respiracoa:"Expire ao empurrar para baixo, inspire ao subir."},
+      {n:"Tríceps Corda",s:3,r:15,d:60,ico:"🪢",
+       musculos:["Tríceps (foco na cabeça lateral)"],
+       passos:["Use a corda no pulley alto.","Segure as pontas, cotovelos fixos ao corpo.","Desça esticando os braços e afaste as mãos ao final (pronação).","Volte controlado, sem mudar a posição dos cotovelos."],
+       como:"Pegada na corda. Afaste as mãos ao final (pronação).",
+       evitar:["Cotovelos para frente durante o movimento","Balançar o tronco para empurrar","Não afastar as mãos no final (perde o recrutamento lateral)","Descer rápido","Encolher os ombros"],
+       dicas:["O segredo está na abertura no final do movimento.","Mantenha os pulsos relaxados, força nas mãos.","Foque em contrair o tríceps, não em empurrar peso."],
+       respiracoa:"Expire ao descer, inspire ao voltar."},
+      {n:"Tríceps Testa",s:3,r:15,d:60,ico:"🧠",
+       musculos:["Tríceps (foco na cabeça longa)"],
+       passos:["Deite no banco, segure a barra E-Z com braços esticados.","Flexione os cotovelos, descendo a barra em direção à testa (sem tocar).","Mantenha cotovelos apontados para o teto.","Estenda os braços voltando à posição inicial."],
+       como:"Desça a barra em direção à testa. Sobe esticando os braços.",
+       evitar:["Levar a barra ao peito (vira supino)","Cotovelos abertos para os lados","Bater a barra na testa","Descer rápido sem controle","Usar pegada muito fechada (estresse no pulso)"],
+       dicas:["Use barra E-Z para preservar os pulsos.","Mantenha os braços fixos, só os antebraços se movem.","Carga moderada, foco na técnica."],
+       respiracoa:"Inspire ao descer, expire ao subir."},
+      {n:"Elevação Lateral",s:3,r:15,d:60,ico:"↔️",
+       musculos:["Deltoide lateral (médio)"],
+       passos:["Segure halteres leves ao lado do corpo, cotovelos levemente flexionados.","Suba os braços até a altura dos ombros (não passe muito).","Mantenha cotovelos levemente acima dos pulsos.","Desça controlado, sem deixar cair."],
+       como:"Suba até a altura dos ombros, cotovelos levemente flexionados.",
+       evitar:["Passar muito além dos ombros (estresse articular)","Usar impulso do corpo (balançar)","Descer rápido e sem controle","Girar os pulsos para cima","Encolher os ombros durante o movimento"],
+       dicas:["Use cargas leves, este exercício é de isolamento.","Imagine jogando água para os lados.","Leve os cotovelos para cima, não as mãos.","Pausa de 1s no topo."],
+       respiracoa:"Inspire ao descer, expire ao subir."},
+      {n:"Desenvolvimento",s:3,r:15,d:60,ico:"📌",
+       musculos:["Deltoide anterior","Tríceps","Trapézio superior"],
+       passos:["Sentado, costas apoiadas, segure halteres na altura dos ombros.","Empurre os halteres para cima até quase estender os braços.","Desça controlado até a altura dos ombros."],
+       como:"Empurre até quase estender, desça até a altura dos ombros.",
+       evitar:["Arquear a lombar durante o empurre","Descer rápido sem controle","Travar os cotovelos no topo","Cotovelos abertos demais (90° evita lesão)","Encolher os ombros"],
+       dicas:["Mantenha o abdômen contraído para proteger a lombar.","Cotovelos levemente à frente (cerca de 30°) protege o manguito.","Use banco com apoio para cargas altas."],
+       respiracoa:"Inspire ao descer, expire ao empurrar."},
+      {n:"Mesa Flexora",s:3,r:12,d:60,ico:"🦵",
+       musculos:["Posteriores de coxa","Flexores do joelho"],
+       passos:["Deite de bruços na mesa, ajuste o colchão na altura dos tornozelos.","Flexione os joelhos levando os calcanhares em direção ao glúteo.","Contrai no final do movimento.","Desça controlado."],
+       como:"Flexione joelhos levando o calcanhar ao glúteo.",
+       evitar:["Levantar o quadril durante a flexão","Movimento curto, sem amplitude completa","Descer rápido e bater","Usar o tronco para ajudar","Flexionar os pés demais (estresse no tendão)"],
+       dicas:["Mantenha o quadril colado no banco.","Pausa de 1s no topo para mais contração.","Pés relaxados, força nas canelas."],
+       respiracoa:"Expire ao flexionar, inspire ao descer."},
+      {n:"Cadeira Flexora (sexta)",s:3,r:12,d:60,ico:"🪑",
+       musculos:["Posteriores de coxa","Flexores do joelho"],
+       passos:["Sentado, ajuste o colchão na altura dos tornozelos.","Flexione as pernas controlado, levando os pés para baixo e para trás.","Contrai o posterior no final do movimento.","Sobe controlado."],
+       como:"Flexiona as pernas controlado. Contrai glúteo junto.",
+       evitar:["Impulsionar com o corpo (sair do banco)","Movimento curto, sem amplitude","Descer rápido","Inclinar o tronco à frente para ajudar"],
+       dicas:["Mantenha as costas apoiadas.","Pés relaxados, força nas canelas.","Pausa de 1s na contração máxima."],
+       respiracoa:"Expire ao flexionar, inspire ao voltar."}
+     ]},
+  C:{nome:"Treino C — Perna Completo",dias:"Quarta",
+     dica:"Treino pesado. Hidrate-se e foque na execução.",
+     grupos:["Quadríceps","Posterior de coxa","Glúteos","Panturrilha","Abdômen"],
+     ex:[
+      {n:"Agachamento Livre",s:3,r:15,d:120,ico:"🏋️",
+       musculos:["Quadríceps","Glúteos","Posteriores","Core"],
+       passos:["Posicione a barra no trapézio, não no pescoço.","Pés na largura dos ombros, pontas levemente para fora.","Retraia as escápulas, peito estufado, olhar à frente.","Desça como se sentasse, joelhos seguindo os pés.","Até 90° (coxas paralelas ao chão), suba empurrando o chão."],
+       como:"Pés na largura dos ombros. Desça como se sentasse até 90°.",
+       evitar:["Joelhos cavejando para dentro","Tirar o calcanhar do chão","Curvar a coluna (pescoço baixo)","Descer rápido e bater","Joelhos muito à frente dos pés","Colocar a barra na cervical (buro)"],
+       dicas:["Use core firme para proteger a lombar.","Suba expirando com força.","Pense em empurrar o chão para longe.","Sempre use barra de segurança em cargas altas."],
+       respiracoa:"Inspire e firme o abdômen antes de descer, expire ao subir."},
+      {n:"Leg 45",s:4,r:15,d:120,ico:"🦵",
+       musculos:["Quadríceps","Glúteos","Posteriores"],
+       passos:["Ajuste o banco para que ao descer chegue a 90° no joelho.","Pés na largura do quadril, na parte baixa da plataforma.","Solte a trava, desça controlado.","Empurre a plataforma até quase estender o joelho."],
+       como:"Desça até 90°, empurre sem travar o joelho.",
+       evitar:["Tirar o quadril do banco (bumbum solto)","Descer rápido e bater","Travar o joelho no topo","Joelhos cavejando","Pós muito juntos ou afastados demais"],
+       dicas:["Mantenha todo o pé apoiado.","Amplitude completa = melhor resultados.","Não segure a respiração."],
+       respiracoa:"Inspire ao descer, expire ao empurrar."},
+      {n:"Cadeira Extensora",s:3,r:15,d:120,ico:"🔩",
+       musculos:["Quadríceps (foco no reto femoral)"],
+       passos:["Ajuste o encosto para alinhar o joelho ao eixo da máquina.","Apoie as canelas no colchão.","Estique os joelhos contraindo o quadríceps.","Pause 1 segundo no topo, desça controlado."],
+       como:"Estique os joelhos contraindo o quadríceps. Pause 1s no topo.",
+       evitar:["Balançar o tronco para trás","Movimento curto (não estende)","Usar impulso para subir","Descer rápido","Elevar o quadril do banco"],
+       dicas:["Aponte os dedos para cima para mais contração.","Pausa de 2s no topo = queima extra.","Carga moderada, foco na técnica."],
+       respiracoa:"Inspire ao descer, expire ao estender."},
+      {n:"Cadeira Abdutora + Adutora",s:3,r:15,d:60,ico:"🦵",
+       musculos:["Glúteo médio (abdutora)","Adutores (adutora)"],
+       passos:["Abdutora: sente-se, apoie a parte externa das coxas nos colchões, afaste as pernas.","Contrai no ponto máximo, volta controlado.","Adutora: ajuste a máquina, apoie a parte interna das pernas, junte com força.","Volte controlado."],
+       como:"Abdutora: abre pernas. Adutora: fecha apertando a parte interna.",
+       evitar:["Usar impulso para abrir/fechar","Movimento rápido e sem contração","Descer rápido (perde a contração)","Inclinar o tronco para frente","Encolher os ombros"],
+       dicas:["Pausa de 1s na posição máxima.","Carga moderada, foco em contrair.","Abdutora: mantenha os pés apoiados; Adutora: joelhos alinhados."],
+       respiracoa:"Expire ao contrair, inspire ao retornar."},
+      {n:"Elevação Pélvica",s:4,r:15,d:60,ico:"🍑",
+       musculos:["Glúteo máximo","Posteriores de coxa"],
+       passos:["Apoie as costas num banco, joelhos flexionados, pés no chão.","Coloque a carga (barra ou halter) sobre o quadril.","Suba o quadril contraindo o glúteo.","Alinhe joelho, quadril e ombro no topo.","Desça controlado."],
+       como:"Suba o quadril contraindo o glúteo, alinhando joelho-ombro.",
+       evitar:["Arquear a lombar no topo","Não subir o suficiente (falta amplitude)","Descer rápido","Apoiado no pescoço em vez das costas","Não contrair o glúteo no topo"],
+       dicas:["Contrai o glúteo com força no topo por 1-2s.","Mantenha o queixo tucked (junto ao peito).","Use um colchonete para proteger o quadril."],
+       respiracoa:"Inspire antes, expire ao subir."},
+      {n:"Mesa Flexora",s:4,r:15,d:60,ico:"🦵",
+       musculos:["Posteriores de coxa","Flexores do joelho"],
+       passos:["Deite na mesa, ajuste o colchão na altura dos tornozelos.","Flexione os joelhos levando os calcanhares ao glúteo.","Contrai o posterior no final.","Desça controlado."],
+       como:"Flexione os joelhos. Contrai o glúteo junto.",
+       evitar:["Levantar o quadril","Movimento curto","Descer rápido","Usar o tronco para ajudar"],
+       dicas:["Pausa de 1s no topo.","Mantenha o quadril colado.","Pés relaxados, força nas canelas."],
+       respiracoa:"Expire ao flexionar, inspire ao descer."},
+      {n:"Cadeira Flexora",s:3,r:15,d:60,ico:"🪑",
+       musculos:["Posteriores de coxa","Flexores do joelho"],
+       passos:["Sentado, ajuste o colchão na altura dos tornozelos.","Flexiona as pernas controlado, levando os pés para trás.","Contrai o posterior no final.","Sobe controlado."],
+       como:"Flexiona controlado, foco no posterior.",
+       evitar:["Impulso do tronco","Movimento curto","Descer rápido","Sair do banco"],
+       dicas:["Pausa de 1s na contração máxima.","Pés relaxados, força nas canelas.","Foque em sentir o posterior trabalhando."],
+       respiracoa:"Expire ao flexionar, inspire ao voltar."},
+      {n:"Panturrilha em Pé + Sentado",s:4,r:15,d:60,ico:"🦶",
+       musculos:["Gastrocnêmio (em pé)","Sóleo (sentado)"],
+       passos:["Em pé: posicione a bola do pé na plataforma, desça esticando a panturrilha.","Suba o máximo, contraindo no topo.","Sentado: use a máquina, joelhos flexionados a 90°.","Mesmo movimento: amplitude completa."],
+       como:"Em pé: gastrocnêmio. Sentado: soleo. Suba o máximo, desça lento.",
+       evitar:["Movimento curto (sem amplitude)","Descer rápido (quicar)","Não pausar no topo","Usar carga excessiva que rouba técnica","Rotacionar os pés demais"],
+       dicas:["Pausa de 1-2s no topo é essencial.","Amplitude completa > carga alta.","Varie a posição dos pés (para dentro, neutro, para fora) para diferentes fibras."],
+       respiracoa:"Inspire ao descer, expire ao subir."}
+     ]}
+};
+var GRUPOS=["Peito","Costas","Ombros","Bíceps","Tríceps","Abdômen","Glúteos","Quadríceps","Posterior de coxa","Panturrilha"];
+var OBJETIVOS=["Ganho de massa","Emagrecimento","Definição","Aumento de força","Condicionamento","Resistência","Saúde e qualidade de vida","Preparação esportiva","Reabilitação"];
+var EMOJIS=["😫","😟","😐","🙂","😄"];
+var CAMPOS=[
+  {k:"energia",l:"Energia",e:"⚡"},{k:"motivacao",l:"Motivação",e:"🎯"},
+  {k:"sono",l:"Qualidade do sono",e:"😴"},{k:"estresse",l:"Nível de estresse",e:"😰"},
+  {k:"dor",l:"Dor muscular",e:"🤕"},{k:"fadiga",l:"Fadiga",e:"😮"},
+  {k:"humor",l:"Humor",e:"😊"},{k:"recuperacao",l:"Recuperação",e:"🛡️"}
+];
+var CONQUISTAS=[
+  {id:"primeiro",e:"🎯",t:"Primeiro passo",d:"Conclua seu primeiro treino"},
+  {id:"semana7",e:"🔥",t:"Semana perfeita",d:"7 dias de consistência"},
+  {id:"trinta",e:"💪",t:"30 treinos",d:"Realize 30 treinos"},
+  {id:"carga",e:"📈",t:"Primeiro aumento",d:"Aumente a carga"},
+  {id:"recorde",e:"🏆",t:"Novo recorde",d:"Bata um PR pessoal"},
+  {id:"mes",e:"📅",t:"Sem desistir",d:"1 mês sem abandonar"},
+  {id:"peso",e:"⚖️",t:"Meta de peso",d:"Registre meta de peso"},
+  {id:"cem",e:"👑",t:"Lenda",d:"100 treinos concluídos"}
+];
+
+// ============ STORAGE ============
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function load(k,def){try{var v=localStorage.getItem(k);return v===null?def:JSON.parse(v)}catch(e){return def}}
+function saveStr(k,v){localStorage.setItem(k,v)}
+function loadStr(k,def){return localStorage.getItem(k)||def}
+function toast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show")},2000)}
+
+// ============ ESTADO ============
+var currentTab="A",currentSub="visao";
+function todayISO(){var d=new Date();var m=String(d.getMonth()+1).padStart(2,"0");var dy=String(d.getDate()).padStart(2,"0");return d.getFullYear()+"-"+m+"-"+dy}
+
+(function(){
+  var meses=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+  var d=new Date();
+  document.getElementById("hoje").textContent=d.getDate()+" de "+meses[d.getMonth()];
+})();
+
+// ============ NAVEGAÇÃO ============
+function go(tab){
+  currentTab=tab;
+  var ts=document.querySelectorAll(".tab");
+  for(var i=0;i<ts.length;i++)ts[i].classList.remove("active");
+  document.querySelector(".tab-"+tab.toLowerCase()).classList.add("active");
+  document.getElementById("subtabs").style.display=(tab==="E")?"flex":"none";
+  render();
+}
+function goSub(s){currentSub=s;render()}
+
+// ============ RENDER PRINCIPAL ============
+function render(){
+  var c=document.getElementById("content");
+  try{
+    if(currentTab==="E"){
+      renderSubTabs();
+      if(currentSub==="visao")return renderVisao(c);
+      if(currentSub==="forca")return renderForca(c);
+      if(currentSub==="corpo")return renderCorpo(c);
+      if(currentSub==="freq")return renderFreq(c);
+      if(currentSub==="fotos")return renderFotos(c);
+      if(currentSub==="conquistas")return renderConquistas(c);
+      if(currentSub==="condicao")return renderCondicao(c);
+      if(currentSub==="objetivo")return renderObjetivo(c);
+      renderVisao(c);
+      return;
+    }
+    renderTreino(c);
+  }catch(err){
+    c.innerHTML="<p style='color:red;padding:20px;font-size:13px'>Erro: "+err.message+"</p>";
+  }
+}
+
+function renderSubTabs(){
+  var subs=[["visao","📌 Visão geral"],["forca","💪 Força"],["corpo","📏 Corpo"],["freq","📅 Frequência"],["fotos","📸 Fotos"],["conquistas","🏆 Conquistas"],["condicao","🙂 Como estou?"],["objetivo","🎯 Objetivo"]];
+  var html="";
+  for(var i=0;i<subs.length;i++){
+    var cls=currentSub===subs[i][0]?"subtab active":"subtab";
+    html+='<button class="'+cls+'" onclick="goSub(\''+subs[i][0]+'\')">'+subs[i][1]+'</button>';
+  }
+  document.getElementById("subtabs").innerHTML=html;
+}
+
+// ============ TREINO ============
+function renderTreino(c){
+  var tr=TREINOS[currentTab];
+  var h="";
+  h+='<div class="section-title">'+tr.nome+'</div>';
+  h+='<div class="tip">⏱️ '+tr.dica+'<br><b>📈 Progride carga ou repetição toda semana</b>, dentro da zona alvo.</div>';
+  for(var i=0;i<tr.ex.length;i++){
+    var ex=tr.ex[i];
+    var id=currentTab+"-"+i;
+    var done=loadStr("done-"+id,"0")==="1";
+    var kg=loadStr("kg-"+id,"");
+    var rep=loadStr("rep-"+id,"");
+    h+='<div class="card card-'+currentTab.toLowerCase()+(done?" done":"")+'" id="card-'+id+'">';
+    h+='<div class="card-head">';
+    h+='<div class="check'+(done?" on":"")+'" onclick="toggleDone(\''+id+'\')">'+(done?"✓":"")+'</div>';
+    h+='<div style="flex:1"><div class="ex-name">'+ex.ico+' '+ex.n+'</div>';
+    h+='<div class="ex-meta">'+ex.s+' séries · '+ex.r+' reps · '+ex.d+'s descanso</div></div>';
+    h+='</div>';
+    h+='<div class="ex-row">';
+    h+='<div class="inp"><label>Carga (kg)</label><input type="number" inputmode="decimal" data-tipo="kg" value="'+kg+'" placeholder="0" oninput="atualizarCarga(\''+id+'\','+i+')"></div>';
+    h+='<div class="inp"><label>Reps</label><input type="number" inputmode="numeric" data-tipo="rep" value="'+rep+'" placeholder="0" oninput="atualizarCarga(\''+id+'\','+i+')"></div>';
+    h+='<button class="how-btn" onclick="abrirModal(\''+id+'\')">🎬 Como fazer</button>';
+    h+='</div></div>';
+  }
+  h+='<div class="tip blue">🏃 <b>20 min de cardio</b> pós-treino em qualquer aparelho.</div>';
+  h+='<button class="btn green" onclick="concluirTreino(\''+currentTab+'\')">✅ Concluir Treino '+currentTab+'</button>';
+  c.innerHTML=h;
+}
+
+function toggleDone(id){
+  var card=document.getElementById("card-"+id);
+  var check=card.querySelector(".check");
+  var isDone=loadStr("done-"+id,"0")==="1";
+  isDone=!isDone;
+  saveStr("done-"+id,isDone?"1":"0");
+  if(isDone){check.classList.add("on");card.classList.add("done");check.textContent="✓"}
+  else{check.classList.remove("on");card.classList.remove("done");check.textContent=""}
+}
+
+function atualizarCarga(id,idx){
+  var card=document.getElementById("card-"+id);
+  var kg=card.querySelector('[data-tipo="kg"]').value;
+  var rep=card.querySelector('[data-tipo="rep"]').value;
+  saveStr("kg-"+id,kg);
+  saveStr("rep-"+id,rep);
+  registrarCarga(TREINOS[currentTab].ex[idx].n,kg,rep,TREINOS[currentTab].ex[idx].s);
+}
+
+// ============ REGISTRAR CARGA ============
+var cargaTimeout={};
+function registrarCarga(nome,kg,rep,series){
+  if(cargaTimeout[nome])clearTimeout(cargaTimeout[nome]);
+  cargaTimeout[nome]=setTimeout(function(){
+    if(!kg||!rep)return;
+    var hist=load("cargas-"+nome,[]);
+    var nova=parseFloat(kg);
+    hist.push({data:todayISO(),carga:nova,reps:parseInt(rep),series:parseInt(series),vol:nova*parseInt(rep)*parseInt(series)});
+    save("cargas-"+nome,hist);
+    if(hist.length>=2&&hist[hist.length-2].carga<nova)unlock("carga");
+    var pr=0;for(var i=0;i<hist.length;i++){if(hist[i].carga>pr)pr=hist[i].carga}
+    if(nova>=pr&&hist.length>1)unlock("recorde");
+  },1200);
+}
+
+// ============ MODAL APRIMORADO ============
+function abrirModal(id){
+  var parts=id.split("-");
+  var tab=parts[0];var idx=parseInt(parts[1]);
+  var ex=TREINOS[tab].ex[idx];
+  var hist=load("cargas-"+ex.n,[]);
+  var pr="—";
+  if(hist.length){for(var i=0;i<hist.length;i++){if(hist[i].carga>pr||pr==="—")pr=hist[i].carga}}
+  var html='<button class="close-x" onclick="fechaModal()">✕</button>';
+  html+='<h3>'+ex.ico+' '+ex.n+'</h3>';
+  html+='<div class="modal-meta">'+ex.s+' séries · '+ex.r+' reps · descanso '+ex.d+'s · 🏆 PR: <b>'+(pr==="—"?"—":pr+" kg")+'</b></div>';
+  
+  // Músculos trabalhados
+  if(ex.musculos&&ex.musculos.length){
+    html+='<div class="modal-sec-title">🎯 Músculos trabalhados</div>';
+    html+='<div class="musc-tags">';
+    for(var m=0;m<ex.musculos.length;m++)html+='<span>'+ex.musculos[m]+'</span>';
+    html+='</div>';
+  }
+  
+  // Passo a passo
+  if(ex.passos&&ex.passos.length){
+    html+='<div class="modal-sec-title">📋 Passo a passo</div>';
+    html+='<ol class="step-list">';
+    for(var p=0;p<ex.passos.length;p++)html+='<li>'+ex.passos[p]+'</li>';
+    html+='</ol>';
+  }
+  
+  // Como fazer (resumo)
+  html+='<div class="correct"><h4>✅ Como fazer corretamente</h4><p>'+ex.como+'</p></div>';
+  
+  // Erros comuns
+  if(ex.evitar){
+    if(typeof ex.evitar==="string"){
+      html+='<div class="avoid"><h4>⚠️ O que evitar</h4><p>'+ex.evitar+'</p></div>';
+    }else{
+      html+='<div class="avoid"><h4>⚠️ Erros comuns a evitar</h4><ul class="err-list">';
+      for(var e=0;e<ex.evitar.length;e++)html+='<li>'+ex.evitar[e]+'</li>';
+      html+='</ul></div>';
+    }
+  }
+  
+  // Dicas extras
+  if(ex.dicas&&ex.dicas.length){
+    html+='<div class="modal-sec-title">💡 Dicas extras</div>';
+    html+='<ul class="tip-list">';
+    for(var d=0;d<ex.dicas.length;d++)html+='<li>'+ex.dicas[d]+'</li>';
+    html+='</ul>';
+  }
+  
+  // Respiração
+  if(ex.respiracao||ex.respiracoa){
+    var resp=ex.respiracoa||ex.respiracao;
+    html+='<div class="info-box"><h4>🌬️ Respiração</h4><p>'+resp+'</p></div>';
+  }
+  
+  html+='<p style="margin-top:14px;font-size:12px;color:#6b7280">📌 Foque na conexão mente-músculo antes de aumentar a carga. Técnica sempre vem primeiro!</p>';
+  document.getElementById("modalBody").innerHTML=html;
+  document.getElementById("modal").classList.add("show");
+}
+function fechaModal(){document.getElementById("modal").classList.remove("show")}
+
+// ============ CONCLUIR TREINO ============
+function concluirTreino(letra){
+  var datas=load("treinosConcluidos",[]);
+  if(datas.indexOf(todayISO())!==-1){toast("Treino de hoje já foi registrado ✅");return}
+  datas.push(todayISO());
+  save("treinosConcluidos",datas);
+  var est=load("estatisticas",{treinos:0});
+  est.treinos++;
+  save("estatisticas",est);
+  if(est.treinos>=1)unlock("primeiro");
+  if(est.treinos>=30)unlock("trinta");
+  if(est.treinos>=100)unlock("cem");
+  if(streak()>=7)unlock("semana7");
+  if(datas.length>=4){var p=new Date(datas[0]),hj=new Date();if((hj-p)/86400000>=28)unlock("mes")}
+  toast("Treino "+letra+" concluído! 🔥");
+}
+
+// ============ STREAK ============
+function streak(){
+  var datas=load("treinosConcluidos",[]).sort();
+  if(!datas.length)return 0;
+  var count=0;var d=new Date();
+  if(datas.indexOf(todayISO())===-1)d.setDate(d.getDate()-1);
+  while(true){
+    var m=String(d.getMonth()+1).padStart(2,"0");
+    var dy=String(d.getDate()).padStart(2,"0");
+    var iso=d.getFullYear()+"-"+m+"-"+dy;
+    if(datas.indexOf(iso)!==-1){count++;d.setDate(d.getDate()-1)}
+    else break;
+  }
+  return count;
+}
+
+// ============ UNLOCK ============
+function unlock(id){
+  var arr=load("conquistas",[]);
+  if(arr.indexOf(id)!==-1)return;
+  arr.push(id);
+  save("conquistas",arr);
+  for(var i=0;i<CONQUISTAS.length;i++){
+    if(CONQUISTAS[i].id===id){(function(c){setTimeout(function(){toast("🏆 Conquista: "+c.t+"!")},600)})(CONQUISTAS[i])}
+  }
+}
+
+// ============ VISÃO GERAL ============
+function renderVisao(c){
+  var datas=load("treinosConcluidos",[]);
+  var est=load("estatisticas",{treinos:0});
+  var mes=new Date().getMonth();
+  var noMes=0;for(var i=0;i<datas.length;i++){if(new Date(datas[i]).getMonth()===mes)noMes++}
+  var sem=inicioSemana();
+  var naSemana=0;for(var j=0;j<datas.length;j++){if(new Date(datas[j])>=sem)naSemana++}
+  var corpo=load("medidas",[]);
+  var pesoAtual=corpo.length?corpo[corpo.length-1].peso:null;
+  var prCount=0;
+  for(var key in localStorage){if(key.indexOf("cargas-")===0){var h=load(key,[]);if(h.length>=2)prCount++}}
+  var sd=streak();
+  var insights=gerarInsights();
+  var h="";
+  h+='<div class="section-title">📌 Visão geral</div>';
+  h+='<div class="stats">';
+  h+='<div class="stat"><div class="num">'+noMes+'</div><div class="lbl">Treinos no mês</div></div>';
+  h+='<div class="stat"><div class="num">'+naSemana+'x</div><div class="lbl">Freq. semanal</div></div>';
+  h+='<div class="stat"><div class="num">'+(pesoAtual?pesoAtual+"kg":"—")+'</div><div class="lbl">Peso atual</div></div>';
+  h+='<div class="stat"><div class="num">'+prCount+'</div><div class="lbl">Recordes (PR)</div></div>';
+  h+='</div>';
+  h+='<div class="streak-box"><div class="fire">🔥</div><div><b>'+sd+' '+(sd===1?"dia":"dias")+'</b><span>de sequência — não pare agora!</span></div></div>';
+  h+='<div class="section-title">💡 Insights automáticos</div>';
+  if(insights.length){for(var k=0;k<insights.length;k++)h+='<div class="insight '+insights[k].cls+'">'+insights[k].txt+'</div>'}
+  else{h+='<div class="empty">Comece a registrar para receber insights.</div>'}
+  h+='<div class="section-title">⚡ Ações rápidas</div>';
+  h+='<button class="btn" onclick="goSub(\'condicao\')">🙂 Como estou hoje</button>';
+  h+='<button class="btn purple" onclick="goSub(\'corpo\')">📏 Registrar medidas</button>';
+  h+='<button class="btn pink" onclick="goSub(\'fotos\')">📸 Adicionar foto</button>';
+  c.innerHTML=h;
+}
+function inicioSemana(){var d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-d.getDay());return d}
+function gerarInsights(){
+  var out=[];
+  for(var key in localStorage){
+    if(key.indexOf("cargas-")!==0)continue;
+    var hist=load(key,[]);
+    if(hist.length<2)continue;
+    var nome=key.replace("cargas-","");
+    var hoje=hist[hist.length-1];
+    var ant=null;
+    for(var i=hist.length-1;i>=0;i--){
+      if((new Date(hoje.data)-new Date(hist[i].data))/86400000>=21){ant=hist[i];break}
+    }
+    if(ant&&ant.carga&&hoje.carga>ant.carga){
+      var pct=((hoje.carga-ant.carga)/ant.carga*100).toFixed(1);
+      out.push({cls:"good",txt:"📈 Você aumentou <b>"+nome+"</b> em <b>+"+pct+"%</b> nas últimas semanas."});
+    }
+  }
+  var datas=load("treinosConcluidos",[]);
+  if(datas.length>=3){
+    var atual=inicioSemana();
+    var ant=new Date(atual);ant.setDate(ant.getDate()-7);
+    var naAtual=0,naAnt=0;
+    for(var j=0;j<datas.length;j++){
+      var dd=new Date(datas[j]);
+      if(dd>=atual)naAtual++;
+      else if(dd>=ant)naAnt++;
+    }
+    if(naAnt>0&&naAtual>naAnt)out.push({cls:"good",txt:"🎯 Frequência melhorou de <b>"+naAnt+"</b> para <b>"+naAtual+"</b> treinos/semana."});
+    else if(naAnt>naAtual&&naAnt>0)out.push({cls:"warn",txt:"⚠️ Esta semana ("+naAtual+") está abaixo da anterior ("+naAnt+")."});
+  }
+  return out.slice(0,5);
+}
+
+// ============ FORÇA ============
+function renderForca(c){
+  var todos=[];
+  for(var i=0;i<TREINOS.A.ex.length;i++)todos.push(TREINOS.A.ex[i].n);
+  for(var j=0;j<TREINOS.B.ex.length;j++)todos.push(TREINOS.B.ex[j].n);
+  for(var k=0;k<TREINOS.C.ex.length;k++)todos.push(TREINOS.C.ex[k].n);
+  var exSel=loadStr("forcaSel",todos[0]);
+  var hist=load("cargas-"+exSel,[]);
+  var ultima=hist.length?hist[hist.length-1]:null;
+  var anterior=hist.length>=2?hist[hist.length-2]:null;
+  var deltaTxt="<span style='color:#6b7280'>sem histórico anterior</span>";
+  if(anterior&&ultima){
+    var dlt=ultima.carga-anterior.carga;
+    if(dlt>0)deltaTxt="<span style='color:#16a34a;font-weight:700'>▲ +"+dlt+" kg (+"+(dlt/anterior.carga*100).toFixed(1)+"%)</span>";
+    else if(dlt<0)deltaTxt="<span style='color:#dc2626;font-weight:700'>▼ "+dlt+" kg</span>";
+    else deltaTxt="<span style='color:#6b7280'>= igual</span>";
+  }
+  var melhor=0,maiorRep=0,vol=0;
+  for(var m=0;m<hist.length;m++){
+    if(hist[m].carga>melhor)melhor=hist[m].carga;
+    if(hist[m].reps>maiorRep)maiorRep=hist[m].reps;
+    vol+=hist[m].vol||0;
+  }
+  var opts="";
+  for(var n=0;n<todos.length;n++)opts+="<option "+(todos[n]===exSel?"selected":"")+">"+todos[n]+"</option>";
+  var h="";
+  h+='<div class="section-title">💪 Evolução de Força</div>';
+  h+='<div class="form-card"><label>Exercício</label><select onchange="saveStr(\'forcaSel\',this.value);render()">'+opts+'</select></div>';
+  h+='<div class="stats">';
+  h+='<div class="stat"><div class="num">'+(ultima?ultima.carga+"kg":"—")+'</div><div class="lbl">Carga atual</div></div>';
+  h+='<div class="stat"><div class="num">'+(melhor||"—")+(melhor?"kg":"")+'</div><div class="lbl">Recorde (PR)</div></div>';
+  h+='<div class="stat"><div class="num">'+(maiorRep||"—")+'</div><div class="lbl">Maior reps</div></div>';
+  h+='<div class="stat"><div class="num">'+(vol/1000).toFixed(1)+'k</div><div class="lbl">Volume total</div></div>';
+  h+='</div>';
+  h+='<div class="list-item"><b>'+exSel+'</b><br>'+deltaTxt+'<br><small style="color:#6b7280">Séries: '+(ultima?ultima.series:"—")+' · Última: '+(ultima?ultima.data:"—")+'</small></div>';
+  if(hist.length>1){
+    h+='<div class="form-card"><h4 style="margin-bottom:8px;font-size:13px">📈 Evolução da carga</h4>';
+    var vals=[];for(var p=0;p<hist.length;p++)vals.push(hist[p].carga);
+    if(vals.length>10)vals=vals.slice(-10);
+    h+=lineChart(vals);
+    h+='</div>';
+  }
+  h+='<div class="section-title">🕓 Histórico</div>';
+  if(hist.length){
+    for(var q=hist.length-1;q>=0;q--){
+      h+='<div class="list-item"><b>'+hist[q].data+'</b> · '+hist[q].carga+'kg × '+hist[q].reps+' reps · '+hist[q].series+' séries</div>';
+    }
+  }else{
+    h+='<div class="empty">Registre cargas nos treinos para ver a evolução.</div>';
+  }
+  c.innerHTML=h;
+}
+function lineChart(values){
+  if(values.length<2)return "<p style='font-size:12px;color:#6b7280'>Precisa de 2+ registros.</p>";
+  var w=300,hh=100,pad=12;
+  var min=values[0],max=values[0];
+  for(var i=0;i<values.length;i++){if(values[i]<min)min=values[i];if(values[i]>max)max=values[i]}
+  var rng=max-min||1;
+  var pts="";
+  var circles="";
+  for(var j=0;j<values.length;j++){
+    var x=pad+(j/(values.length-1))*(w-2*pad);
+    var y=hh-pad-((values[j]-min)/rng)*(hh-2*pad);
+    pts+=x+","+y+" ";
+    circles+='<circle cx="'+x+'" cy="'+y+'" r="3.5" fill="#6366f1"/><text x="'+x+'" y="'+(y-7)+'" font-size="9" text-anchor="middle" fill="#374151">'+values[j]+'</text>';
+  }
+  return '<svg viewBox="0 0 '+w+' '+hh+'" style="width:100%;height:auto"><polyline points="'+pts+'" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'+circles+'</svg>';
+}
+
+// ============ CORPO ============
+function renderCorpo(c){
+  var m=load("medidas",[]);
+  var ultima=m.length?m[m.length-1]:null;
+  var campos=[["peso","⚖️ Peso (kg)","78.5"],["gordura","🔥 % Gordura","18"],["massa","💪 Massa muscular (kg)","64"],["braco","🦾 Braço (cm)","35"],["peito","🫁 Peitoral (cm)","100"],["cintura","⏳ Cintura (cm)","80"],["abdomen","🔻 Abdômen (cm)","85"],["quadril","🍑 Quadril (cm)","95"],["coxa","🦵 Cotha (cm)","55"],["panturrilha","🦶 Panturrilha (cm)","38"]];
+  var h="";
+  h+='<div class="section-title">📏 Evolução Física</div>';
+  h+='<div class="tip green">Registre suas medidas semanalmente. Mesma fita, mesmo horário.</div>';
+  h+='<div class="form-card">';
+  h+='<label>📅 Data</label>';
+  h+='<input type="date" id="m-data" value="'+todayISO()+'">';
+  h+='<div class="form-grid">';
+  for(var i=0;i<campos.length;i++){
+    var val=ultima&&ultima[campos[i][0]]?ultima[campos[i][0]]:"";
+    h+='<div><label>'+campos[i][1]+'</label><input id="m-'+campos[i][0]+'" type="number" step="0.1" value="'+val+'" placeholder="'+campos[i][2]+'"></div>';
+  }
+  h+='</div>';
+  h+='<button class="btn" onclick="salvarMedidas()">💾 Salvar medidas</button>';
+  h+='</div>';
+  if(m.length>1){
+    var vals=[];for(var k=0;k<m.length;k++)vals.push(parseFloat(m[k].peso)||0);
+    h+='<div class="form-card"><h4 style="margin-bottom:8px;font-size:13px">⚖️ Evolução do peso</h4>'+lineChart(vals)+'</div>';
+  }
+  h+='<div class="section-title">🕘 Histórico</div>';
+  if(m.length){
+    for(var q=m.length-1;q>=0;q--){
+      h+='<div class="list-item" style="border-left-color:#22c55e"><button class="del" onclick="delMedida(\''+m[q].data+'\')">Excluir</button><b>'+m[q].data+'</b>'+(m[q].peso?" · Peso "+m[q].peso+"kg":"")+(m[q].gordura?" · "+m[q].gordura+"% gord.":"")+(m[q].cintura?" · Cintura "+m[q].cintura+"cm":"")+'</div>';
+    }
+  }else{
+    h+='<div class="empty">Nenhuma medida registrada ainda.</div>';
+  }
+  c.innerHTML=h;
+}
+function salvarMedidas(){
+  var campos=["peso","gordura","massa","braco","peito","cintura","abdomen","quadril","coxa","panturrilha"];
+  var obj={data:document.getElementById("m-data").value};
+  for(var i=0;i<campos.length;i++){var v=document.getElementById("m-"+campos[i]).value;obj[campos[i]]=v?parseFloat(v):null}
+  var m=load("medidas",[]);
+  var novo=[];
+  for(var j=0;j<m.length;j++){if(m[j].data!==obj.data)novo.push(m[j])}
+  novo.push(obj);
+  save("medidas",novo);
+  toast("Medidas salvas! 📏");
+  render();
+}
+function delMedida(data){var m=load("medidas",[]);var n=[];for(var i=0;i<m.length;i++){if(m[i].data!==data)n.push(m[i])}save("medidas",n);render()}
+
+// ============ FREQUÊNCIA ============
+function renderFreq(c){
+  var datas=load("treinosConcluidos",[]);
+  var hoje=new Date();
+  var ano=hoje.getFullYear(),mes=hoje.getMonth();
+  var primeiro=new Date(ano,mes,1);
+  var offset=primeiro.getDay();
+  var diasMes=new Date(ano,mes+1,0).getDate();
+  var dow=["D","S","T","Q","Q","S","S"];
+  var cells="";
+  for(var d=0;d<7;d++)cells+='<div style="font-size:10px;color:#94a3b8;font-weight:700;text-align:center">'+dow[d]+'</div>';
+  for(var e=0;e<offset;e++)cells+='<div></div>';
+  var mesCount=0;
+  for(var dd=1;dd<=diasMes;dd++){
+    var iso=ano+"-"+String(mes+1).padStart(2,"0")+"-"+String(dd).padStart(2,"0");
+    var isHoje=iso===todayISO();
+    var feito=datas.indexOf(iso)!==-1;
+    if(feito&&new Date(iso).getMonth()===mes)mesCount++;
+    cells+='<div class="cal-day'+(feito?" done":"")+(isHoje?" today":"")+'">'+dd+'</div>';
+  }
+  var gc=contarGrupos();
+  var maxVal=1;
+  for(var key in gc){if(gc[key]>maxVal)maxVal=gc[key]}
+  var gruposHtml="";
+  for(var g=0;g<GRUPOS.length;g++){
+    if(gc[GRUPOS[g]]>0){
+      gruposHtml+='<div class="bar-row"><div class="name">'+GRUPOS[g]+'</div><div class="bar-bg"><div class="bar-fill" style="width:'+(gc[GRUPOS[g]]/maxVal*100)+'%"></div></div><div class="val">'+gc[GRUPOS[g]]+'x</div></div>';
+    }
+  }
+  if(!gruposHtml)gruposHtml='<div class="empty">Sem dados ainda.</div>';
+  var h="";
+  h+='<div class="section-title">📅 Frequência</div>';
+  h+='<div class="stats">';
+  h+='<div class="stat"><div class="num">'+mesCount+'</div><div class="lbl">Treinos no mês</div></div>';
+  h+='<div class="stat"><div class="num">'+datas.length+'</div><div class="lbl">Treinos totais</div></div>';
+  h+='<div class="stat"><div class="num">'+streak()+'</div><div class="lbl">Sequência (dias)</div></div>';
+  h+='<div class="stat"><div class="num">'+load("estatisticas",{treinos:0}).treinos+'</div><div class="lbl">Total concluído</div></div>';
+  h+='</div>';
+  h+='<div class="section-title">🗓️ Calendário</div>';
+  h+='<div class="cal">'+cells+'</div>';
+  h+='<div class="section-title">🏋️ Grupos musculares</div>';
+  h+='<div class="form-card">'+gruposHtml+'</div>';
+  h+='<div class="tip blue">🏷️ <b>Tags:</b> Treino concluído · Alta intensidade · Consistência · Meta semanal</div>';
+  c.innerHTML=h;
+}
+function contarGrupos(){
+  var datas=load("treinosConcluidos",[]);
+  var c={};for(var i=0;i<GRUPOS.length;i++)c[GRUPOS[i]]=0;
+  for(var j=0;j<datas.length;j++){
+    var dw=new Date(datas[j]).getDay();
+    if(dw===1||dw===4){for(var a=0;a<TREINOS.A.grupos.length;a++)c[TREINOS.A.grupos[a]]++}
+    if(dw===2||dw===5){for(var b=0;b<TREINOS.B.grupos.length;b++)c[TREINOS.B.grupos[b]]++}
+    if(dw===3){for(var cc=0;cc<TREINOS.C.grupos.length;cc++)c[TREINOS.C.grupos[cc]]++}
+  }
+  return c;
+}
+
+// ============ FOTOS ============
+var fotosTemp={};
+function renderFotos(c){
+  var fotos=load("fotos",[]);
+  var h="";
+  h+='<div class="section-title">📸 Fotos de Evolução</div>';
+  h+='<div class="tip" style="background:#fdf2f8;border-left-color:#ec4899;color:#9d174d">Tire fotos <b>frente, lado e costas</b> a cada 2-4 semanas. Mesma luz, roupa e horário.</div>';
+  h+='<div class="form-card">';
+  h+='<label>📅 Data</label>';
+  h+='<input type="date" id="f-data" value="'+todayISO()+'">';
+  h+='<label style="margin-top:10px">📷 Adicionar fotos</label>';
+  h+='<div class="photo-grid">';
+  h+='<div class="photo-slot"><label>👤<br>Frente<br><small>tocar</small><input type="file" accept="image/*" style="display:none" onchange="previewPhoto(this,\'frente\')"></label><img id="prev-frente" style="display:none;width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px"></div>';
+  h+='<div class="photo-slot"><label>↔️<br>Lado<br><small>tocar</small><input type="file" accept="image/*" style="display:none" onchange="previewPhoto(this,\'lado\')"></label><img id="prev-lado" style="display:none;width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px"></div>';
+  h+='<div class="photo-slot"><label>🔙<br>Costas<br><small>tocar</small><input type="file" accept="image/*" style="display:none" onchange="previewPhoto(this,\'costas\')"></label><img id="prev-costas" style="display:none;width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px"></div>';
+  h+='</div>';
+  h+='<button class="btn pink" onclick="salvarFotos()">💾 Salvar fotos</button>';
+  h+='</div>';
+  h+='<div class="section-title">🕘 Histórico</div>';
+  if(fotos.length){
+    for(var q=fotos.length-1;q>=0;q--){
+      h+='<div class="list-item" style="border-left-color:#ec4899"><button class="del" onclick="delFoto(\''+fotos[q].data+'\')">Excluir</button><b>'+fotos[q].data+'</b>';
+      h+='<div class="photo-grid" style="margin-top:8px">';
+      if(fotos[q].frente)h+='<div><img src="'+fotos[q].frente+'"></div>';
+      if(fotos[q].lado)h+='<div><img src="'+fotos[q].lado+'"></div>';
+      if(fotos[q].costas)h+='<div><img src="'+fotos[q].costas+'"></div>';
+      h+='</div></div>';
+    }
+  }else{
+    h+='<div class="empty">Nenhuma foto ainda.</div>';
+  }
+  c.innerHTML=h;
+}
+function previewPhoto(input,tipo){
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement("canvas");
+      var max=500;var w=img.width,h=img.height;
+      if(w>h){if(w>max){h=h*max/w;w=max}}else{if(h>max){w=w*max/h;h=max}}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext("2d").drawImage(img,0,0,w,h);
+      fotosTemp[tipo]=canvas.toDataURL("image/jpeg",0.7);
+      var prev=document.getElementById("prev-"+tipo);
+      prev.src=fotosTemp[tipo];prev.style.display="block";
+      prev.previousElementSibling.style.display="none";
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function salvarFotos(){
+  if(!fotosTemp.frente&&!fotosTemp.lado&&!fotosTemp.costas){toast("Adicione ao menos uma foto 📸");return}
+  var data=document.getElementById("f-data").value;
+  var f=load("fotos",[]);
+  var novo=[];
+  for(var i=0;i<f.length;i++){if(f[i].data!==data)novo.push(f[i])}
+  novo.push({data:data,frente:fotosTemp.frente||null,lado:fotosTemp.lado||null,costas:fotosTemp.costas||null});
+  save("fotos",novo);
+  fotosTemp={};
+  toast("Fotos salvas! 📸");
+  render();
+}
+function delFoto(data){var f=load("fotos",[]);var n=[];for(var i=0;i<f.length;i++){if(f[i].data!==data)n.push(f[i])}save("fotos",n);render()}
+
+// ============ CONQUISTAS ============
+function renderConquistas(c){
+  var arr=load("conquistas",[]);
+  var est=load("estatisticas",{treinos:0});
+  if(est.treinos>=1)unlock("primeiro");
+  if(est.treinos>=30)unlock("trinta");
+  if(est.treinos>=100)unlock("cem");
+  if(streak()>=7)unlock("semana7");
+  var h="";
+  h+='<div class="section-title">🏆 Conquistas</div>';
+  h+='<div class="tip green">Continue treinando para desbloquear novos selos!</div>';
+  h+='<div class="ach-grid">';
+  for(var i=0;i<CONQUISTAS.length;i++){
+    var unlocked=arr.indexOf(CONQUISTAS[i].id)!==-1;
+    h+='<div class="ach'+(unlocked?" unlocked":"")+'">';
+    h+='<div class="emoji">'+(unlocked?CONQUISTAS[i].e:"🔒")+'</div>';
+    h+='<div class="ttl">'+CONQUISTAS[i].t+'</div>';
+    h+='<div class="desc">'+CONQUISTAS[i].d+'</div>';
+    h+='</div>';
+  }
+  h+='</div>';
+  h+='<div class="section-title">📊 Progresso</div>';
+  h+='<div class="form-card">';
+  h+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px"><span>Treinos realizados</span><b>'+est.treinos+'/100</b></div>';
+  h+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px"><span>Conquistas</span><b>'+arr.length+'/'+CONQUISTAS.length+'</b></div>';
+  h+='<div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px"><span>Sequência atual</span><b>'+streak()+' dias</b></div>';
+  h+='</div>';
+  c.innerHTML=h;
+}
+
+// ============ CONDIÇÃO ============
+function renderCondicao(c){
+  var hoje=todayISO();
+  var checkins=load("checkin",[]);
+  var hojeCheck=null;
+  for(var i=0;i<checkins.length;i++){if(checkins[i].data===hoje)hojeCheck=checkins[i]}
+  if(!hojeCheck)hojeCheck={};
+  var h="";
+  h+='<div class="section-title">🙂 Como estou hoje?</div>';
+  h+='<div class="tip">Registre como se sente antes/depois do treino.</div>';
+  h+='<div class="form-card">';
+  for(var i=0;i<CAMPOS.length;i++){
+    h+='<label style="margin-top:12px">'+CAMPOS[i].e+' '+CAMPOS[i].l+'</label>';
+    h+='<div class="emoji-scale" data-campo="'+CAMPOS[i].k+'" data-val-sel="'+(hojeCheck[CAMPOS[i].k]||"")+'">';
+    for(var j=0;j<5;j++){
+      h+='<div class="e'+(hojeCheck[CAMPOS[i].k]===(j+1)?" on":"")+'" data-val="'+(j+1)+'" onclick="selEmoji(this)">'+EMOJIS[j]+'</div>';
+    }
+    h+='</div>';
+  }
+  h+='<label style="margin-top:14px">⚡ Intensidade percebida (1-10)</label>';
+  h+='<input type="number" min="1" max="10" id="c-intensidade" value="'+(hojeCheck.intensidade||"")+'" placeholder="Ex.: 7">';
+  h+='<button class="btn" onclick="salvarCheckin()">💾 Salvar check-in</button>';
+  h+='</div>';
+  h+='<div class="tip blue">🏷️ <b>Tags:</b> Bem descansado · Pouca energia · Dor muscular · Alta motivação</div>';
+  c.innerHTML=h;
+}
+function selEmoji(el){
+  var p=el.parentElement;
+  var all=p.querySelectorAll(".e");
+  for(var i=0;i<all.length;i++)all[i].classList.remove("on");
+  el.classList.add("on");
+  p.dataset.valSel=el.dataset.val;
+}
+function salvarCheckin(){
+  var obj={data:todayISO()};
+  var scales=document.querySelectorAll(".emoji-scale");
+  for(var i=0;i<scales.length;i++){
+    if(scales[i].dataset.valSel)obj[scales[i].dataset.campo]=parseInt(scales[i].dataset.valSel);
+  }
+  var intVal=document.getElementById("c-intensidade").value;
+  obj.intensidade=intVal?parseInt(intVal):null;
+  var c=load("checkin",[]);
+  var novo=[];
+  for(var j=0;j<c.length;j++){if(c[j].data!==obj.data)novo.push(c[j])}
+  novo.push(obj);
+  save("checkin",novo);
+  toast("Check-in salvo! 🙂");
+  render();
+}
+
+// ============ OBJETIVO ============
+function renderObjetivo(c){
+  var perfil=load("perfil",{objetivo:"",grupos:[],metaPeso:null});
+  if(!perfil.grupos)perfil.grupos=[];
+  var h="";
+  h+='<div class="section-title">🎯 Seu Objetivo</div>';
+  h+='<div class="tip blue">Defina seu foco principal.</div>';
+  h+='<div class="form-card">';
+  h+='<label>🏅 Objetivo principal</label>';
+  h+='<div class="tags" id="obj-tags">';
+  for(var i=0;i<OBJETIVOS.length;i++){
+    h+='<div class="tag'+(perfil.objetivo===OBJETIVOS[i]?" on":"")+'" onclick="selObj(this)">'+OBJETIVOS[i]+'</div>';
+  }
+  h+='</div>';
+  h+='<label style="margin-top:14px">🎯 Grupos em foco</label>';
+  h+='<div class="tags">';
+  for(var g=0;g<GRUPOS.length;g++){
+    h+='<div class="tag'+(perfil.grupos.indexOf(GRUPOS[g])!==-1?" on":"")+'" onclick="toggleGrupo(this,\''+GRUPOS[g]+'\')">'+GRUPOS[g]+'</div>';
+  }
+  h+='</div>';
+  h+='<label style="margin-top:14px">⚖️ Meta de peso (kg)</label>';
+  h+='<input type="number" step="0.1" id="meta-peso" value="'+(perfil.metaPeso||"")+'" placeholder="Ex.: 80">';
+  h+='<button class="btn" onclick="salvarPerfil()">💾 Salvar</button>';
+  h+='</div>';
+  c.innerHTML=h;
+}
+function selObj(el){
+  var all=el.parentElement.querySelectorAll(".tag");
+  for(var i=0;i<all.length;i++)all[i].classList.remove("on");
+  el.classList.add("on");
+}
+function toggleGrupo(el,g){
+  el.classList.toggle("on");
+  var perfil=load("perfil",{grupos:[]});
+  if(!perfil.grupos)perfil.grupos=[];
+  var idx=perfil.grupos.indexOf(g);
+  if(idx!==-1)perfil.grupos.splice(idx,1);
+  else perfil.grupos.push(g);
+  save("perfil",perfil);
+}
+function salvarPerfil(){
+  var perfil=load("perfil",{}); 
+  var objEl=document.querySelector("#obj-tags .tag.on");
+  perfil.objetivo=objEl?objEl.textContent:"";
+  var meta=document.getElementById("meta-peso").value;
+  perfil.metaPeso=meta?parseFloat(meta):null;
+  save("perfil",perfil);
+  toast("Objetivo salvo! 🎯");
+}
+
+// ============ INIT ============
+render();
+</script>
+
+<script>
+// ============ INSTALAÇÃO PWA ============
+(function(){
+  var installPrompt = null;
+  var installBtn = document.getElementById('installAppBtn');
+  var help = document.getElementById('installHelp');
+
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  }
+
+  function isIOS(){
+    return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  }
+
+  function showIOSHelp(){
+    if(!help || isStandalone()) return;
+    help.innerHTML = '📱 <b>Para instalar no iPhone:</b> abra no Safari, toque em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.';
+    help.classList.add('show');
+  }
+
+  window.addEventListener('beforeinstallprompt', function(event){
+    event.preventDefault();
+    installPrompt = event;
+    if(installBtn && !isStandalone()) installBtn.classList.add('show');
+  });
+
+  if(installBtn){
+    installBtn.addEventListener('click', async function(){
+      if(installPrompt){
+        installPrompt.prompt();
+        try { await installPrompt.userChoice; } catch(e) {}
+        installPrompt = null;
+        installBtn.classList.remove('show');
+      }else if(isIOS()){
+        showIOSHelp();
+      }else{
+        if(help){
+          help.innerHTML = 'Abra este endereço no <b>Google Chrome</b>. No menu, procure <b>Instalar aplicativo</b> ou <b>Adicionar à tela inicial</b>.';
+          help.classList.add('show');
+        }
+      }
+    });
+  }
+
+  if(isIOS() && !isStandalone()){
+    if(installBtn) installBtn.classList.add('show');
+  }
+
+  window.addEventListener('appinstalled', function(){
+    if(installBtn) installBtn.classList.remove('show');
+    if(help) help.classList.remove('show');
+    if(typeof toast === 'function') toast('Aplicativo instalado! ✅');
+  });
+
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('./service-worker.js').catch(function(err){
+        console.warn('Service Worker não registrado:', err);
+      });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

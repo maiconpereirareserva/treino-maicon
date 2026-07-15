@@ -1,0 +1,11 @@
+TREINO MAICON — VERSÃO INSTALÁVEL (PWA)
+
+1. Não abra apenas o arquivo index.html pelo gerenciador de arquivos.
+2. Publique a pasta inteira em um serviço HTTPS, como Netlify, GitHub Pages ou Cloudflare Pages.
+3. No Android, abra o endereço pelo Chrome e toque em "Instalar aplicativo".
+4. No iPhone, abra pelo Safari, toque em Compartilhar e escolha "Adicionar à Tela de Início".
+
+IMPORTANTE:
+- Envie/publice a pasta inteira, mantendo index.html, manifest.webmanifest, service-worker.js e a pasta icons.
+- Os registros do aplicativo usam localStorage. Eles ficam no aparelho e navegador onde foram cadastrados.
+- Para sincronizar PC e celular, será necessário adicionar um banco de dados online.
